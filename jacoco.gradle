@@ -1,0 +1,16 @@
+apply plugin: 'jacoco'
+
+test {
+    finalizedBy jacocoTestReport // genera el reporte después de ejecutar las pruebas
+}
+
+jacocoTestReport {
+    dependsOn test // necesitas ejecutar las pruebas antes de generar el reporte
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+        xml.outputLocation = file("$buildDir/reports/jacoco/test/xml")
+        html.outputLocation = file("$buildDir/reports/jacoco/test/html")
+    }
+}

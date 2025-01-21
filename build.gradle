@@ -1,0 +1,33 @@
+ext {
+    baseVersion = '1.0.0-SNAPSHOT'
+}
+
+buildscript {
+    apply from: "./repositories.gradle"
+
+    repositories repos
+
+    apply from: "./plugins.gradle"
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootPluginVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:${springDependencyManagementPluginVersion}"
+        classpath 'org.jacoco:org.jacoco.core:0.8.7'
+    }
+}
+
+subprojects {
+    apply from: "../projects.gradle"
+    apply from: project.rootDir.toString()+'/jacoco.gradle'
+
+    repositories repos
+
+    dependencyManagement {
+        apply from: project.rootDir.toString() + '/dependencies.gradle'
+    }
+}
+
+allprojects {
+    group = "com.neoris.customer"
+    version = "${baseVersion}"
+}

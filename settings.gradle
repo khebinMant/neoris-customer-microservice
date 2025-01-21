@@ -1,0 +1,6 @@
+rootProject.name = 'neoris-customer-service'
+include 'neoris-customer-vo'
+include 'neoris-customer-client'
+include 'neoris-customer-core'
+include 'neoris-customer-services'
+

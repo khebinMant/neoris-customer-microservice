@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CatalogueService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">neoris-customer-core</a> &gt; <a href="index.source.html" class="el_package">com.neoris.customer.catalogue.services</a> &gt; <span class="el_source">CatalogueService.java</span></div><h1>CatalogueService.java</h1><pre class="source lang-java linenums">package com.neoris.customer.catalogue.services;
+
+import com.neoris.customer.catalogue.entities.CatalogueTypeEntity;
+import com.neoris.customer.catalogue.entities.CatalogueValueEntity;
+import com.neoris.customer.catalogue.repositories.ICatalogueTypeRepository;
+import com.neoris.customer.catalogue.repositories.ICatalogueValueRepository;
+import com.neoris.customer.catalogue.vo.CatalogueType.CreateCatalogueType;
+import com.neoris.customer.catalogue.vo.CatalogueType.QueryCatalogueType;
+import com.neoris.customer.catalogue.vo.CatalogueType.QueryCatalogueValue;
+import com.neoris.customer.catalogue.vo.CatalogueType.UpdateCatalogueType;
+import com.neoris.customer.catalogue.vo.CatalogueValue.CatalogueValueVo;
+import com.neoris.customer.catalogue.vo.CatalogueValue.CreateCatalogueValue;
+import com.neoris.customer.catalogue.vo.CatalogueValue.UpdateCatalogueValue;
+import com.neoris.customer.common.exceptions.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * {@inheritDoc}
+ */
+@Validated
+@Lazy
+@Service
+@Transactional
+<span class="fc" id="L31">public class CatalogueService implements ICatalogueTypeService {</span>
+
+    @Lazy
+    @Autowired
+    private ICatalogueTypeRepository catalogueTypeRepository;
+
+    @Lazy
+    @Autowired
+    private ICatalogueValueRepository catalogueValueRepository;
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CatalogueTypeEntity createType(CreateCatalogueType createCatalogueType) {
+<span class="fc" id="L47">        return catalogueTypeRepository.create(createCatalogueType);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public CatalogueTypeEntity findTypeById(Long catalogueTypeId) {
+<span class="nc" id="L56">        return Optional.ofNullable(catalogueTypeRepository.findById(catalogueTypeId))</span>
+<span class="nc" id="L57">            .orElseThrow(() -&gt; new EntityNotFoundException(&quot;No existe el tipo de catalogo con id %s&quot;.formatted(catalogueTypeId)));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateType(Long catalogueTypeId, UpdateCatalogueType updateCatalogueType) {
+<span class="nc" id="L65">        this.findTypeById(catalogueTypeId);</span>
+<span class="nc" id="L66">        catalogueTypeRepository.updateEntity(catalogueTypeId, updateCatalogueType);</span>
+<span class="nc" id="L67">    }</span>
+
+    @Override
+    public void inactiveType(Long catalogueTypeId) {
+<span class="nc" id="L71">        this.findTypeById(catalogueTypeId);</span>
+<span class="nc" id="L72">        catalogueTypeRepository.inactive(catalogueTypeId);</span>
+<span class="nc" id="L73">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List&lt;CatalogueTypeEntity&gt; findAllTypes(QueryCatalogueType query) {
+<span class="nc" id="L81">        return this.catalogueTypeRepository.findAll(query);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List&lt;CatalogueValueEntity&gt; findAllValues(Long catalogueTypeId) {
+<span class="nc" id="L90">        return catalogueValueRepository.findAll(QueryCatalogueValue.builder()</span>
+<span class="nc" id="L91">                .catalogueTypeId(catalogueTypeId)</span>
+<span class="nc" id="L92">            .build());</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CatalogueValueEntity addValue(Long catalogueTypeId, CreateCatalogueValue createCatalogueValue)
+        throws EntityNotFoundException {
+<span class="nc" id="L101">        CatalogueTypeEntity catalogueType = this.findTypeById(catalogueTypeId);</span>
+
+<span class="nc" id="L103">        return catalogueValueRepository.create(catalogueType.getCatalogueTypeId(), createCatalogueValue);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public CatalogueValueEntity findValueById(Long catalogueValueId)
+        throws EntityNotFoundException {
+<span class="nc" id="L113">        return Optional.ofNullable(catalogueValueRepository.findById(catalogueValueId))</span>
+<span class="nc" id="L114">            .orElseThrow(() -&gt; new EntityNotFoundException(&quot;No existe el catalogo de valor con el id %s&quot;.formatted(catalogueValueId)));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CatalogueValueEntity findValueByCode(String catalogueValueCode)
+        throws EntityNotFoundException {
+<span class="nc" id="L123">            return Optional.ofNullable(catalogueValueRepository.findByCode(catalogueValueCode))</span>
+<span class="nc" id="L124">                .orElseThrow(() -&gt; new EntityNotFoundException(&quot;No existe el catalogo de valor con el cÃ³digo %s&quot;.formatted(catalogueValueCode)));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void updateValue(Long catalogueTypeId, UpdateCatalogueValue updateCatalogueValue)
+        throws EntityNotFoundException {
+<span class="nc" id="L133">        catalogueValueRepository.updateEntity(catalogueTypeId, updateCatalogueValue);</span>
+<span class="nc" id="L134">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void inactiveValue(Long catalogueValueId) {
+<span class="nc" id="L141">        catalogueValueRepository.inactive(catalogueValueId);</span>
+<span class="nc" id="L142">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List&lt;CatalogueValueVo&gt; findAllByCode(String code){
+<span class="nc" id="L149">        return catalogueValueRepository.findAllByCode(code);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

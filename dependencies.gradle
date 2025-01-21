@@ -1,0 +1,13 @@
+dependencyManagement {
+    dependencies {
+        // Oracle
+        dependency("com.oracle.database.jdbc:ojdbc8:23.2.0.0")
+
+        // Query DSL
+        dependencySet(group: 'com.querydsl', version: "5.0.0", classifier: "jakarta") {
+            entry 'querydsl-jpa'
+            entry 'querydsl-core'
+            entry 'querydsl-apt'
+        }
+    }
+}
