@@ -3,7 +3,7 @@
 # Contacto
 
 - Ante cualquier duda de como correr el proyecto estoy a las ordenes
-`mantillgka@gmail.com`
+`mantillagka@gmail.com`
 
 ## Descripción
 
