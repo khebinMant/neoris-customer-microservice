@@ -1,6 +1,7 @@
-package com.neoris.customer.client;
+package com.neoris.customer.client.entities;
 
-import com.neoris.customer.person.PersonEntity;
+import com.neoris.customer.common.entities.AbstractBaseAuditable;
+import com.neoris.customer.person.entities.PersonEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,10 +16,10 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@Entity( name = "client")
-@Table( schema = "customer")
 @EqualsAndHashCode(callSuper = true)
-public class ClientEntity extends PersonEntity {
+@Entity
+@Table( name = "client", schema = "customer")
+public class ClientEntity extends AbstractBaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "client_id", nullable = false, updatable = false)

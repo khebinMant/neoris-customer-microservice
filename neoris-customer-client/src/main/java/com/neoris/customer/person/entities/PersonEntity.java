@@ -1,4 +1,4 @@
-package com.neoris.customer.person;
+package com.neoris.customer.person.entities;
 
 import com.neoris.customer.catalogue.entities.CatalogueValueEntity;
 import com.neoris.customer.common.entities.AbstractBaseAuditable;
@@ -17,9 +17,9 @@ import java.util.Date;
 @Data
 @SuperBuilder
 @NoArgsConstructor
-@Entity( name = "person")
-@Table( schema = "customer")
 @EqualsAndHashCode(callSuper = true)
+@Entity
+@Table( name = "person", schema = "customer")
 public class PersonEntity extends AbstractBaseAuditable {
 
     @Id
@@ -28,20 +28,19 @@ public class PersonEntity extends AbstractBaseAuditable {
     private Long personId;
 
     @Column(name = "name")
-    private String firstName;
+    private String name;
 
     @Column(name = "surname")
     private String surname;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gender_id")
-    private CatalogueValueEntity gender;
+    @Column(name = "gender")
+    private String gender;
 
     @Column(name = "birth_date")
     private Date birthDate;
 
     @Column(name = "identity_number")
-    private String identityNumber;
+    private Long identityNumber;
 
     @Column(name = "address")
     private String address;

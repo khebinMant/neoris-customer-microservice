@@ -1,4 +1,4 @@
-package com.pge.common.util.utils;
+package com.neoris.customer.common.util;
 
 import org.apache.commons.lang3.time.DateUtils;
 

@@ -1,4 +1,4 @@
-rootProject.name = 'neoris-customer-service'
+rootProject.name = 'neoris-customer-microservice'
 include 'neoris-customer-vo'
 include 'neoris-customer-client'
 include 'neoris-customer-core'

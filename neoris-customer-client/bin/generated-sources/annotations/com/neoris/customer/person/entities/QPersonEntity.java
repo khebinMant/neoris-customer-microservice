@@ -1,4 +1,4 @@
-package com.neoris.customer.catalogue.entities;
+package com.neoris.customer.person.entities;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -10,22 +10,20 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QCatalogueValueEntity is a Querydsl query type for CatalogueValueEntity
+ * QPersonEntity is a Querydsl query type for PersonEntity
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QCatalogueValueEntity extends EntityPathBase<CatalogueValueEntity> {
+public class QPersonEntity extends EntityPathBase<PersonEntity> {
 
-    private static final long serialVersionUID = 161588896L;
+    private static final long serialVersionUID = 791254111L;
 
-    public static final QCatalogueValueEntity catalogueValueEntity = new QCatalogueValueEntity("catalogueValueEntity");
+    public static final QPersonEntity personEntity = new QPersonEntity("personEntity");
 
     public final com.neoris.customer.common.entities.QAbstractBaseAuditable _super = new com.neoris.customer.common.entities.QAbstractBaseAuditable(this);
 
-    public final NumberPath<Long> catalogueTypeId = createNumber("catalogueTypeId", Long.class);
+    public final StringPath address = createString("address");
 
-    public final NumberPath<Long> catalogueValueId = createNumber("catalogueValueId", Long.class);
-
-    public final StringPath code = createString("code");
+    public final DateTimePath<java.util.Date> birthDate = createDateTime("birthDate", java.util.Date.class);
 
     //inherited
     public final NumberPath<Long> createdByUser = _super.createdByUser;
@@ -36,9 +34,9 @@ public class QCatalogueValueEntity extends EntityPathBase<CatalogueValueEntity> 
     //inherited
     public final StringPath createdFromIp = _super.createdFromIp;
 
-    public final StringPath description = createString("description");
+    public final StringPath gender = createString("gender");
 
-    public final StringPath isDefault = createString("isDefault");
+    public final StringPath identityNumber = createString("identityNumber");
 
     //inherited
     public final NumberPath<Long> lastModifiedByUser = _super.lastModifiedByUser;
@@ -48,24 +46,28 @@ public class QCatalogueValueEntity extends EntityPathBase<CatalogueValueEntity> 
 
     public final StringPath name = createString("name");
 
-    public final NumberPath<Long> placement = createNumber("placement", Long.class);
+    public final NumberPath<Long> personId = createNumber("personId", Long.class);
+
+    public final StringPath phone = createString("phone");
 
     //inherited
     public final StringPath status = _super.status;
 
+    public final StringPath surname = createString("surname");
+
     //inherited
     public final StringPath updatedFromIp = _super.updatedFromIp;
 
-    public QCatalogueValueEntity(String variable) {
-        super(CatalogueValueEntity.class, forVariable(variable));
+    public QPersonEntity(String variable) {
+        super(PersonEntity.class, forVariable(variable));
     }
 
-    public QCatalogueValueEntity(Path<? extends CatalogueValueEntity> path) {
+    public QPersonEntity(Path<? extends PersonEntity> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QCatalogueValueEntity(PathMetadata metadata) {
-        super(CatalogueValueEntity.class, metadata);
+    public QPersonEntity(PathMetadata metadata) {
+        super(PersonEntity.class, metadata);
     }
 
 }

@@ -20,6 +20,9 @@ dependencies {
     // H2 Data dase
     implementation 'com.h2database:h2'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     //Test
     testCompileOnly 'org.projectlombok:lombok'
     testImplementation 'com.zaxxer:HikariCP'
