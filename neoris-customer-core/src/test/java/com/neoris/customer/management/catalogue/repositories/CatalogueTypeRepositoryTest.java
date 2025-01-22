@@ -1,7 +1,7 @@
 package com.neoris.customer.management.catalogue.repositories;
 
-import com.neoris.customer.catalogue.entities.CatalogueTypeEntity;
 import com.neoris.customer.catalogue.repositories.ICatalogueTypeRepository;
+import com.neoris.customer.catalogue.entities.CatalogueTypeEntity;
 import com.neoris.customer.catalogue.vo.CatalogueType.CreateCatalogueType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

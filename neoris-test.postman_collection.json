@@ -1,0 +1,524 @@
+{
+	"info": {
+		"_postman_id": "35fe1283-13fe-4e3f-81eb-ba1badad9c9a",
+		"name": "neoris-test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24819708",
+		"_collection_link": "https://bold-equinox-52515.postman.co/workspace/KrugerWs~dfa930db-f11f-440d-9a2b-31f67d62bfcf/collection/24819708-35fe1283-13fe-4e3f-81eb-ba1badad9c9a?action=share&source=collection_link&creator=24819708"
+	},
+	"item": [
+		{
+			"name": "clients",
+			"item": [
+				{
+					"name": "postClient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//Permite crear un cliente se crea apartir de una persona si la persona no \r\n//existe (por su cedula) entonces no se permite crear.\r\n\r\n{\r\n    \"password\" : \"619\",\r\n    \"identityNumber\": 1725273823,\r\n\r\n    //Campos de auditoria\r\n    \"status\":\"1\",\r\n    \"createdByUser\":\"1001\",\r\n    \"lastModifiedDate\":\"2025-21-01\",\r\n    \"createdFromIp\":\"192.168.0.1\",\r\n    \"updatedFromIp\":\"192.168.0.1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customerApi/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateClient",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\" : \"1788\"\r\n    // ,\"status\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customerApi/clientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getClientByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customerApi/clientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getClientByIdentityNumber",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customerApi/clientes/identityNumber/123567893",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"clientes",
+								"identityNumber",
+								"123567893"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllClients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customerApi/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteClient",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customerApi/clientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "persons",
+			"item": [
+				{
+					"name": "postPerson",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Kevin\",\r\n    \"surname\": \"Guachagmira\",\r\n    \"birthDate\": \"1996-08-10\",\r\n    \"identityNumber\": 1725273823,\r\n    \"address\": \"Urbanización Vencedores de Pichincha\",\r\n    \"phone\":\"0986261197\",\r\n    \"gender\": \"M\",\r\n    \r\n    //Campos de auditoria\r\n    \"status\":\"1\",\r\n    \"createdByUser\":\"1001\",\r\n    \"lastModifiedDate\":\"2025-21-01\",\r\n    \"createdFromIp\":\"192.168.0.1\",\r\n    \"updatedFromIp\":\"192.168.0.1\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customerApi/persons",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"persons"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "patchPerson",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Kevincito\",\r\n    \"surname\": \"Guachagmira\",\r\n    \"birthDate\": \"1996-08-10\",\r\n    \"identificationNumber\": \"1725273823\",\r\n    \"address\": \"Urbanización Vencedores de Pichincha\",\r\n    \"phone\":\"0986261197\",\r\n    \"gender\": \"M\",\r\n    \"status\":\"1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customerApi/personas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"personas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPersonById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customerApi/persons/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"persons",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPersonByIdentityNumber",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customerApi/personas/identityNumber/1235678912",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"personas",
+								"identityNumber",
+								"1235678912"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePerson",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customerApi/persons/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customerApi",
+								"persons",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "accounts",
+			"item": [
+				{
+					"name": "postAccount",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    //Se programo para que se cree una nueva cuenta de un cliente\r\n    //usando su cedula \"identityNumber\"\r\n    //en este caso la cédula es de cliente del ejemplo \"Jose Lema\"\r\n    \"identityNumber\": 1235678910,\r\n    \"accountType\": \"CORRIENTE\",\r\n    \"openingBalance\":1000,\r\n    \r\n    //Campos de auditoria\r\n    \"status\":\"1\",\r\n    \"createdByUser\":1001,\r\n    \"lastModifiedDate\":\"2025-21-01\",\r\n    \"createdFromIp\":\"192.168.0.1\",\r\n    \"updatedFromIp\":\"192.168.0.1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/accountApi/cuentas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"cuentas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAccountByAccountNumber",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/accountApi/cuentas/accountNumber/75790773",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"cuentas",
+								"accountNumber",
+								"75790773"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAccountByAccountNumber",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"0\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/accountApi/cuentas/75790773",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"cuentas",
+								"75790773"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAccounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/accountApi/cuentas",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"cuentas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAccountByClient",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/accountApi/cuentas/client/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"cuentas",
+								"client",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "accountsReport",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/accountApi/cuentas/reportes?minDate=2025-01-01&maxDate=2025-01-31&identityNumber=1235678910",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"cuentas",
+								"reportes"
+							],
+							"query": [
+								{
+									"key": "minDate",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "maxDate",
+									"value": "2025-01-31"
+								},
+								{
+									"key": "identityNumber",
+									"value": "1235678910"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "movements",
+			"item": [
+				{
+					"name": "postMovement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    //Para hacer un movimiento tanto de retiro o de deposito es necesario una cuenta\r\n    //existente\r\n    \"accountNumber\": 7505843,\r\n    \"transactionValue\":-500,\r\n    \r\n    //Campos de auditoria\r\n    \"status\":\"1\",\r\n    \"createdByUser\":1001,\r\n    \"lastModifiedDate\":\"2025-21-01\",\r\n    \"createdFromIp\":\"192.168.0.1\",\r\n    \"updatedFromIp\":\"192.168.0.1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/accountApi/movimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"movimientos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllMovementsFromAccount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/accountApi/movimientos/all/88459334",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"accountApi",
+								"movimientos",
+								"all",
+								"88459334"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

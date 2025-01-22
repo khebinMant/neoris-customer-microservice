@@ -1,10 +1,9 @@
 package com.neoris.customer.client.services;
 
 import com.neoris.customer.client.entities.ClientEntity;
-import com.neoris.customer.client.vo.CreateClientVo;
 import com.neoris.customer.client.vo.UpdateClientVo;
+import com.neoris.customer.client.vo.CreateClientVo;
 import com.neoris.customer.common.exceptions.EntityNotFoundException;
-import com.neoris.customer.person.entities.PersonEntity;
 
 import java.util.List;
 

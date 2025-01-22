@@ -1,12 +1,9 @@
 package com.neoris.customer.person.services;
 
-import com.neoris.customer.person.entities.PersonEntity;
-import com.neoris.customer.client.vo.CreateClientVo;
-import com.neoris.customer.client.vo.UpdateClientVo;
-import com.neoris.customer.common.exceptions.EntityNotFoundException;
-import com.neoris.customer.person.entities.PersonEntity;
-import com.neoris.customer.person.repositories.IPersonRepository;
 import com.neoris.customer.person.vo.CreatePersonVo;
+import com.neoris.customer.person.entities.PersonEntity;
+import com.neoris.customer.common.exceptions.EntityNotFoundException;
+import com.neoris.customer.person.repositories.IPersonRepository;
 import com.neoris.customer.person.vo.UpdatePersonVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

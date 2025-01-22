@@ -1,4 +1,4 @@
-package com.neoris.customer.management.catalogue.controllers;
+package com.neoris.customer.catalogue.controllers;
 
 import com.neoris.customer.catalogue.entities.CatalogueTypeEntity;
 import com.neoris.customer.catalogue.services.ICatalogueTypeService;

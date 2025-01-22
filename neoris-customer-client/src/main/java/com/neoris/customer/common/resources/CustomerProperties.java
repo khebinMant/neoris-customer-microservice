@@ -1,6 +1,7 @@
 package com.neoris.customer.common.resources;
 
 
+import com.neoris.customer.common.exceptions.CustomerException;
 import com.neoris.customer.common.logs.CustomerLogger;
 
 import java.util.MissingResourceException;
@@ -66,13 +67,13 @@ public class CustomerProperties {
      *
      * @param key Property key
      * @return Property value
-     * @throws com.neoris.customer.common.exceptions.CustomerException Exception
+     * @throws CustomerException Exception
      */
-    public static Boolean getBoolean(String key)  throws com.neoris.customer.common.exceptions.CustomerException {
+    public static Boolean getBoolean(String key)  throws CustomerException {
         try {
             return MESSAGE_RESOLVER.getBoolean(key);
         } catch (MissingResourceException e) {
-            throw new com.neoris.customer.common.exceptions.CustomerException("Error getting property with boolean value", e);
+            throw new CustomerException("Error getting property with boolean value", e);
         }
     }
 

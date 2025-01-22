@@ -1,10 +1,11 @@
 package com.neoris.customer.management;
 
+import com.neoris.customer.config.CustomerConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 
-@Import({com.neoris.customer.config.CustomerConfiguration.class})
+@Import({CustomerConfiguration.class})
 @SpringBootApplication(scanBasePackages = {"com.neoris.customer"})
 public class CustomerApplicationTest {
 

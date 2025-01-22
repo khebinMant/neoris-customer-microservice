@@ -2,15 +2,14 @@ package com.neoris.customer.client.controllers;
 
 
 import com.neoris.customer.client.entities.ClientEntity;
-import com.neoris.customer.client.services.IClientService;
-import com.neoris.customer.client.vo.CreateClientVo;
 import com.neoris.customer.client.vo.UpdateClientVo;
 import com.neoris.customer.common.web.Response;
+import com.neoris.customer.client.services.IClientService;
+import com.neoris.customer.client.vo.CreateClientVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

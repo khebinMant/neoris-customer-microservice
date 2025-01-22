@@ -1,10 +1,10 @@
 package com.neoris.customer.person.repositories;
 
-import com.neoris.customer.catalogue.entities.CatalogueValueEntity;
 import com.neoris.customer.common.repositories.JPAQueryDslBaseRepository;
+import com.neoris.customer.person.entities.QPersonEntity;
+import com.neoris.customer.person.vo.CreatePersonVo;
 import com.neoris.customer.person.entities.PersonEntity;
 import com.neoris.customer.common.enums.Status;
-import com.neoris.customer.person.vo.CreatePersonVo;
 import com.neoris.customer.person.vo.UpdatePersonVo;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -12,8 +12,6 @@ import com.querydsl.jpa.impl.JPAUpdateClause;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-
-import static com.neoris.customer.person.entities.QPersonEntity.personEntity;
 
 /**
  * {@inheritDoc}
@@ -49,53 +47,53 @@ public class PersonRepository  extends JPAQueryDslBaseRepository<PersonEntity> i
 
     @Override
     public PersonEntity findById(Long personId) {
-        return from(personEntity)
+        return from(QPersonEntity.personEntity)
                 .where(this.activePersonCondition(personId))
                 .fetchFirst();
     }
 
     @Override
     public PersonEntity findByIdentificationNumber(Long identityNumber) {
-        return from(personEntity)
-                .where(personEntity.status.eq(Status.ACTIVE.value))
-                .where(personEntity.identityNumber.eq(identityNumber))
+        return from(QPersonEntity.personEntity)
+                .where(QPersonEntity.personEntity.status.eq(Status.ACTIVE.value))
+                .where(QPersonEntity.personEntity.identityNumber.eq(identityNumber))
                 .fetchFirst();
     }
 
     @Override
     public void updatePerson(UpdatePersonVo updatePersonVo, Long personId) {
-        JPAUpdateClause updateClause = new JPAUpdateClause(entityManager, personEntity);
+        JPAUpdateClause updateClause = new JPAUpdateClause(entityManager, QPersonEntity.personEntity);
         updateClause.where(this.activePersonCondition(personId));
 
         if (updatePersonVo.getName() != null) {
-            updateClause.set(personEntity.name, updatePersonVo.getName());
+            updateClause.set(QPersonEntity.personEntity.name, updatePersonVo.getName());
         }
 
         if (updatePersonVo.getSurname() != null) {
-            updateClause.set(personEntity.surname, updatePersonVo.getSurname());
+            updateClause.set(QPersonEntity.personEntity.surname, updatePersonVo.getSurname());
         }
 
         if (updatePersonVo.getBirthDate() != null) {
-            updateClause.set(personEntity.birthDate, updatePersonVo.getBirthDate());
+            updateClause.set(QPersonEntity.personEntity.birthDate, updatePersonVo.getBirthDate());
         }
 
         if (updatePersonVo.getIdentityNumber() != null) {
-            updateClause.set(personEntity.identityNumber, updatePersonVo.getIdentityNumber());
+            updateClause.set(QPersonEntity.personEntity.identityNumber, updatePersonVo.getIdentityNumber());
         }
 
         if (updatePersonVo.getAddress() != null) {
-            updateClause.set(personEntity.address, updatePersonVo.getAddress());
+            updateClause.set(QPersonEntity.personEntity.address, updatePersonVo.getAddress());
         }
 
         if (updatePersonVo.getPhone() != null) {
-            updateClause.set(personEntity.phone, updatePersonVo.getPhone());
+            updateClause.set(QPersonEntity.personEntity.phone, updatePersonVo.getPhone());
         }
 
         /*
          * Used to logical delete
          * */
         if (updatePersonVo.getStatus() != null) {
-            updateClause.set(personEntity.status, updatePersonVo.getStatus());
+            updateClause.set(QPersonEntity.personEntity.status, updatePersonVo.getStatus());
         }
 
         updateClause.execute();
@@ -108,7 +106,7 @@ public class PersonRepository  extends JPAQueryDslBaseRepository<PersonEntity> i
      * @return Predicate
      */
     private Predicate statusPredicate(Status status) {
-        return personEntity.status.eq(status.value);
+        return QPersonEntity.personEntity.status.eq(status.value);
     }
 
     /**
@@ -119,8 +117,8 @@ public class PersonRepository  extends JPAQueryDslBaseRepository<PersonEntity> i
      */
     private BooleanBuilder activePersonCondition(Long personId) {
         BooleanBuilder where = new BooleanBuilder();
-        where.and(personEntity.personId.eq(personId));
-        where.and(personEntity.status.eq(Status.ACTIVE.value));
+        where.and(QPersonEntity.personEntity.personId.eq(personId));
+        where.and(QPersonEntity.personEntity.status.eq(Status.ACTIVE.value));
         return where;
     }
 }

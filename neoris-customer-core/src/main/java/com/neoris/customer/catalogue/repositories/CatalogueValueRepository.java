@@ -1,12 +1,14 @@
 package com.neoris.customer.catalogue.repositories;
 
 import com.neoris.customer.catalogue.entities.CatalogueValueEntity;
+import com.neoris.customer.catalogue.entities.QCatalogueTypeEntity;
+import com.neoris.customer.catalogue.entities.QCatalogueValueEntity;
 import com.neoris.customer.catalogue.vo.CatalogueType.QueryCatalogueValue;
 import com.neoris.customer.catalogue.vo.CatalogueValue.CatalogueValueVo;
 import com.neoris.customer.catalogue.vo.CatalogueValue.CreateCatalogueValue;
 import com.neoris.customer.catalogue.vo.CatalogueValue.UpdateCatalogueValue;
-import com.neoris.customer.common.enums.Status;
 import com.neoris.customer.common.repositories.JPAQueryDslBaseRepository;
+import com.neoris.customer.common.enums.Status;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
@@ -15,8 +17,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.neoris.customer.catalogue.entities.QCatalogueTypeEntity.catalogueTypeEntity;
-import static com.neoris.customer.catalogue.entities.QCatalogueValueEntity.catalogueValueEntity;
 import static com.querydsl.core.types.Projections.bean;
 
 /**
@@ -52,16 +52,16 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
      */
     @Override
     public CatalogueValueEntity findById(Long catalogueValueId) {
-        return from(catalogueValueEntity)
-            .select(bean(CatalogueValueEntity.class, catalogueValueEntity.catalogueValueId, catalogueValueEntity.code, catalogueValueEntity.name, catalogueValueEntity.description))
+        return from(QCatalogueValueEntity.catalogueValueEntity)
+            .select(bean(CatalogueValueEntity.class, QCatalogueValueEntity.catalogueValueEntity.catalogueValueId, QCatalogueValueEntity.catalogueValueEntity.code, QCatalogueValueEntity.catalogueValueEntity.name, QCatalogueValueEntity.catalogueValueEntity.description))
             .where(this.activeCatalogueCondition(catalogueValueId))
             .fetchFirst();
     }
 
     @Override
     public CatalogueValueEntity findByCode(String code) {
-        return from(catalogueValueEntity)
-            .where(catalogueValueEntity.code.eq(code))
+        return from(QCatalogueValueEntity.catalogueValueEntity)
+            .where(QCatalogueValueEntity.catalogueValueEntity.code.eq(code))
             .fetchFirst();
     }
 
@@ -70,12 +70,12 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
      */
     @Override
     public void updateEntity(Long catalogueValueId, UpdateCatalogueValue updateCatalogueValue) {
-        this.update(catalogueValueEntity)
+        this.update(QCatalogueValueEntity.catalogueValueEntity)
             .where(this.activeCatalogueCondition(catalogueValueId))
-            .set(catalogueValueEntity.name, updateCatalogueValue.getName())
-            .set(catalogueValueEntity.description, updateCatalogueValue.getDescription())
-            .set(catalogueValueEntity.placement, updateCatalogueValue.getPlacement())
-            .set(catalogueValueEntity.isDefault, updateCatalogueValue.getIsDefault())
+            .set(QCatalogueValueEntity.catalogueValueEntity.name, updateCatalogueValue.getName())
+            .set(QCatalogueValueEntity.catalogueValueEntity.description, updateCatalogueValue.getDescription())
+            .set(QCatalogueValueEntity.catalogueValueEntity.placement, updateCatalogueValue.getPlacement())
+            .set(QCatalogueValueEntity.catalogueValueEntity.isDefault, updateCatalogueValue.getIsDefault())
             .execute();
     }
 
@@ -84,9 +84,9 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
      */
     @Override
     public void inactive(Long catalogueValueId) {
-        this.update(catalogueValueEntity)
+        this.update(QCatalogueValueEntity.catalogueValueEntity)
             .where(this.activeCatalogueCondition(catalogueValueId))
-            .set(catalogueValueEntity.status, Status.INACTIVE.value)
+            .set(QCatalogueValueEntity.catalogueValueEntity.status, Status.INACTIVE.value)
             .execute();
     }
 
@@ -95,9 +95,9 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
      */
     @Override
     public List<CatalogueValueEntity> findAll(QueryCatalogueValue query) {
-        return from(catalogueValueEntity)
+        return from(QCatalogueValueEntity.catalogueValueEntity)
             .where(buildQuery(query))
-            .orderBy(catalogueValueEntity.placement.asc())
+            .orderBy(QCatalogueValueEntity.catalogueValueEntity.placement.asc())
             .fetch();
     }
 
@@ -109,7 +109,7 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
      */
     private BooleanBuilder activeCatalogueCondition(Long catalogueValueId) {
         BooleanBuilder where = new BooleanBuilder();
-        where.and(catalogueValueEntity.catalogueValueId.eq(catalogueValueId));
+        where.and(QCatalogueValueEntity.catalogueValueEntity.catalogueValueId.eq(catalogueValueId));
         where.and(statusPredicate(Status.ACTIVE));
         return where;
     }
@@ -121,7 +121,7 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
      * @return Predicate
      */
     private Predicate statusPredicate(Status status) {
-        return catalogueValueEntity.status.eq(status.value);
+        return QCatalogueValueEntity.catalogueValueEntity.status.eq(status.value);
     }
 
     /**
@@ -134,11 +134,11 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
         BooleanBuilder where = new BooleanBuilder();
 
         // Add status active condition
-        where.and(catalogueValueEntity.status.eq(Status.ACTIVE.value));
+        where.and(QCatalogueValueEntity.catalogueValueEntity.status.eq(Status.ACTIVE.value));
 
         // Filter by catalogueTypeId
         if (query.getCatalogueTypeId() != null) {
-            where.and(catalogueValueEntity.catalogueTypeId.eq(query.getCatalogueTypeId()));
+            where.and(QCatalogueValueEntity.catalogueValueEntity.catalogueTypeId.eq(query.getCatalogueTypeId()));
         }
 
         return where;
@@ -151,14 +151,14 @@ public class CatalogueValueRepository extends JPAQueryDslBaseRepository<Catalogu
      * @return List of Catalogs
      */
     public List<CatalogueValueVo> findAllByCode(String code){
-        return from(catalogueValueEntity)
-                .leftJoin(catalogueTypeEntity).on(catalogueValueEntity.catalogueTypeId.eq(catalogueTypeEntity.catalogueTypeId))
-                .where(catalogueTypeEntity.code.eq(code))
+        return from(QCatalogueValueEntity.catalogueValueEntity)
+                .leftJoin(QCatalogueTypeEntity.catalogueTypeEntity).on(QCatalogueValueEntity.catalogueValueEntity.catalogueTypeId.eq(QCatalogueTypeEntity.catalogueTypeEntity.catalogueTypeId))
+                .where(QCatalogueTypeEntity.catalogueTypeEntity.code.eq(code))
                 .select(Projections.bean(CatalogueValueVo.class,
-                    catalogueValueEntity.catalogueValueId,
-                    catalogueValueEntity.code,
-                    catalogueValueEntity.name))
-                .orderBy(catalogueValueEntity.placement.asc())
+                    QCatalogueValueEntity.catalogueValueEntity.catalogueValueId,
+                    QCatalogueValueEntity.catalogueValueEntity.code,
+                    QCatalogueValueEntity.catalogueValueEntity.name))
+                .orderBy(QCatalogueValueEntity.catalogueValueEntity.placement.asc())
                 .fetch();
     }
 

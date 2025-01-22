@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.neoris.customer.config.CustomerConfiguration;
 import com.neoris.customer.client.seeders.ClientSeeder;
 import com.neoris.customer.person.seeders.PersonSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.TimeZone;
 
-@Import({com.neoris.customer.config.CustomerConfiguration.class})
+@Import({CustomerConfiguration.class})
 @SpringBootApplication(scanBasePackages = {"com.neoris.customer"})
 @EnableFeignClients
 public class CustomerApplication implements CommandLineRunner {

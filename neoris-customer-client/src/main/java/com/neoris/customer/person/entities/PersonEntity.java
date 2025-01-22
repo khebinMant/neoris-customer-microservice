@@ -1,6 +1,5 @@
 package com.neoris.customer.person.entities;
 
-import com.neoris.customer.catalogue.entities.CatalogueValueEntity;
 import com.neoris.customer.common.entities.AbstractBaseAuditable;
 import jakarta.persistence.*;
 import lombok.Data;

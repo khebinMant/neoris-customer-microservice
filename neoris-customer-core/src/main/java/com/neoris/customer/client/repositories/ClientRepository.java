@@ -1,8 +1,9 @@
 package com.neoris.customer.client.repositories;
 
 import com.neoris.customer.client.entities.ClientEntity;
-import com.neoris.customer.client.vo.CreateClientVo;
+import com.neoris.customer.client.entities.QClientEntity;
 import com.neoris.customer.client.vo.UpdateClientVo;
+import com.neoris.customer.client.vo.CreateClientVo;
 import com.neoris.customer.common.enums.Status;
 import com.neoris.customer.common.repositories.JPAQueryDslBaseRepository;
 import com.neoris.customer.person.entities.PersonEntity;
@@ -15,9 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.neoris.customer.client.entities.QClientEntity.clientEntity;
-
-    /**
+/**
      * {@inheritDoc}
      */
     @Repository
@@ -47,34 +46,34 @@ public class ClientRepository extends JPAQueryDslBaseRepository<ClientEntity> im
 
     @Override
     public ClientEntity findById(Long clientId) {
-        return from(clientEntity)
+        return from(QClientEntity.clientEntity)
                 .where(this.activeClientCondition(clientId))
                 .fetchFirst();
     }
 
     @Override
     public ClientEntity findByIdentificationPersonNumber(Long identityNumber) {
-        return from(clientEntity)
-                .where(clientEntity.status.eq(Status.ACTIVE.value))
-                .where(clientEntity.person.status.eq(Status.ACTIVE.value))
-                .where(clientEntity.person.identityNumber.eq(identityNumber))
+        return from(QClientEntity.clientEntity)
+                .where(QClientEntity.clientEntity.status.eq(Status.ACTIVE.value))
+                .where(QClientEntity.clientEntity.person.status.eq(Status.ACTIVE.value))
+                .where(QClientEntity.clientEntity.person.identityNumber.eq(identityNumber))
                 .fetchFirst();
     }
 
     @Override
     public void updateClient(UpdateClientVo updateClientVo, Long clientId) {
-        JPAUpdateClause updateClause = new JPAUpdateClause(entityManager, clientEntity);
+        JPAUpdateClause updateClause = new JPAUpdateClause(entityManager, QClientEntity.clientEntity);
         updateClause.where(this.activeClientCondition(clientId));
 
         if (updateClientVo.getPassword() != null) {
-            updateClause.set(clientEntity.password, updateClientVo.getPassword());
+            updateClause.set(QClientEntity.clientEntity.password, updateClientVo.getPassword());
         }
 
         /*
         * Used to logical delete
         * */
         if (updateClientVo.getStatus() != null) {
-            updateClause.set(clientEntity.status, updateClientVo.getStatus());
+            updateClause.set(QClientEntity.clientEntity.status, updateClientVo.getStatus());
         }
 
         updateClause.execute();
@@ -82,8 +81,8 @@ public class ClientRepository extends JPAQueryDslBaseRepository<ClientEntity> im
 
         @Override
         public List<ClientEntity> findAllClients() {
-            return from(clientEntity)
-                    .where(clientEntity.status.eq(Status.ACTIVE.value))
+            return from(QClientEntity.clientEntity)
+                    .where(QClientEntity.clientEntity.status.eq(Status.ACTIVE.value))
                     .fetch();
         }
 
@@ -94,7 +93,7 @@ public class ClientRepository extends JPAQueryDslBaseRepository<ClientEntity> im
      * @return Predicate
      */
     private Predicate statusPredicate(Status status) {
-        return clientEntity.status.eq(status.value);
+        return QClientEntity.clientEntity.status.eq(status.value);
     }
 
     /**
@@ -105,7 +104,7 @@ public class ClientRepository extends JPAQueryDslBaseRepository<ClientEntity> im
      */
     private BooleanBuilder activeClientCondition(Long clientId) {
         BooleanBuilder where = new BooleanBuilder();
-        where.and(clientEntity.clientId.eq(clientId));
+        where.and(QClientEntity.clientEntity.clientId.eq(clientId));
         where.and(statusPredicate(Status.ACTIVE));
         return where;
     }

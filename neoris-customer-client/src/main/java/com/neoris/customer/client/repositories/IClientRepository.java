@@ -2,8 +2,8 @@ package com.neoris.customer.client.repositories;
 
 
 import com.neoris.customer.client.entities.ClientEntity;
-import com.neoris.customer.client.vo.CreateClientVo;
 import com.neoris.customer.client.vo.UpdateClientVo;
+import com.neoris.customer.client.vo.CreateClientVo;
 import com.neoris.customer.common.repositories.IQueryDslBaseRepository;
 import com.neoris.customer.person.entities.PersonEntity;
 
