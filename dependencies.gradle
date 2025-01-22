@@ -1,6 +1,5 @@
 dependencyManagement {
     imports {
-        // Importa el BOM de Spring Cloud
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.3"
     }
 

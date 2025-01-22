@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PersonRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">neoris-customer-core</a> &gt; <a href="index.source.html" class="el_package">com.neoris.customer.person.repositories</a> &gt; <span class="el_source">PersonRepository.java</span></div><h1>PersonRepository.java</h1><pre class="source lang-java linenums">package com.neoris.customer.person.repositories;
+
+import com.neoris.customer.common.repositories.JPAQueryDslBaseRepository;
+import com.neoris.customer.person.entities.QPersonEntity;
+import com.neoris.customer.person.vo.CreatePersonVo;
+import com.neoris.customer.person.entities.PersonEntity;
+import com.neoris.customer.common.enums.Status;
+import com.neoris.customer.person.vo.UpdatePersonVo;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+
+/**
+ * {@inheritDoc}
+ */
+@Repository
+public class PersonRepository  extends JPAQueryDslBaseRepository&lt;PersonEntity&gt; implements IPersonRepository  {
+    public PersonRepository(){
+<span class="nc" id="L22">        super(PersonEntity.class);</span>
+<span class="nc" id="L23">    }</span>
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public PersonEntity create(CreatePersonVo createPersonVo) {
+<span class="nc" id="L30">        PersonEntity entity = PersonEntity.builder()</span>
+<span class="nc" id="L31">                .name(createPersonVo.getName())</span>
+<span class="nc" id="L32">                .surname(createPersonVo.getSurname())</span>
+<span class="nc" id="L33">                .gender(createPersonVo.getGender())</span>
+<span class="nc" id="L34">                .birthDate(createPersonVo.getBirthDate())</span>
+<span class="nc" id="L35">                .identityNumber(createPersonVo.getIdentityNumber())</span>
+<span class="nc" id="L36">                .address(createPersonVo.getAddress())</span>
+<span class="nc" id="L37">                .phone(createPersonVo.getPhone())</span>
+<span class="nc" id="L38">                .status(createPersonVo.getStatus())</span>
+<span class="nc" id="L39">                .createdByUser(createPersonVo.getCreatedByUser())</span>
+<span class="nc" id="L40">                .lastModifiedDate(createPersonVo.getLastModifiedDate())</span>
+<span class="nc" id="L41">                .createdFromIp(createPersonVo.getCreatedFromIp())</span>
+<span class="nc" id="L42">                .updatedFromIp(createPersonVo.getUpdatedFromIp())</span>
+<span class="nc" id="L43">                .build();</span>
+<span class="nc" id="L44">        this.save(entity);</span>
+<span class="nc" id="L45">        return entity;</span>
+    }
+
+    @Override
+    public PersonEntity findById(Long personId) {
+<span class="nc" id="L50">        return from(QPersonEntity.personEntity)</span>
+<span class="nc" id="L51">                .where(this.activePersonCondition(personId))</span>
+<span class="nc" id="L52">                .fetchFirst();</span>
+    }
+
+    @Override
+    public PersonEntity findByIdentificationNumber(Long identityNumber) {
+<span class="nc" id="L57">        return from(QPersonEntity.personEntity)</span>
+<span class="nc" id="L58">                .where(QPersonEntity.personEntity.status.eq(Status.ACTIVE.value))</span>
+<span class="nc" id="L59">                .where(QPersonEntity.personEntity.identityNumber.eq(identityNumber))</span>
+<span class="nc" id="L60">                .fetchFirst();</span>
+    }
+
+    @Override
+    public void updatePerson(UpdatePersonVo updatePersonVo, Long personId) {
+<span class="nc" id="L65">        JPAUpdateClause updateClause = new JPAUpdateClause(entityManager, QPersonEntity.personEntity);</span>
+<span class="nc" id="L66">        updateClause.where(this.activePersonCondition(personId));</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (updatePersonVo.getName() != null) {</span>
+<span class="nc" id="L69">            updateClause.set(QPersonEntity.personEntity.name, updatePersonVo.getName());</span>
+        }
+
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if (updatePersonVo.getSurname() != null) {</span>
+<span class="nc" id="L73">            updateClause.set(QPersonEntity.personEntity.surname, updatePersonVo.getSurname());</span>
+        }
+
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        if (updatePersonVo.getBirthDate() != null) {</span>
+<span class="nc" id="L77">            updateClause.set(QPersonEntity.personEntity.birthDate, updatePersonVo.getBirthDate());</span>
+        }
+
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (updatePersonVo.getIdentityNumber() != null) {</span>
+<span class="nc" id="L81">            updateClause.set(QPersonEntity.personEntity.identityNumber, updatePersonVo.getIdentityNumber());</span>
+        }
+
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (updatePersonVo.getAddress() != null) {</span>
+<span class="nc" id="L85">            updateClause.set(QPersonEntity.personEntity.address, updatePersonVo.getAddress());</span>
+        }
+
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (updatePersonVo.getPhone() != null) {</span>
+<span class="nc" id="L89">            updateClause.set(QPersonEntity.personEntity.phone, updatePersonVo.getPhone());</span>
+        }
+
+        /*
+         * Used to logical delete
+         * */
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (updatePersonVo.getStatus() != null) {</span>
+<span class="nc" id="L96">            updateClause.set(QPersonEntity.personEntity.status, updatePersonVo.getStatus());</span>
+        }
+
+<span class="nc" id="L99">        updateClause.execute();</span>
+<span class="nc" id="L100">    }</span>
+
+    /**
+     * Generate predicate status
+     *
+     * @param status Status
+     * @return Predicate
+     */
+    private Predicate statusPredicate(Status status) {
+<span class="nc" id="L109">        return QPersonEntity.personEntity.status.eq(status.value);</span>
+    }
+
+    /**
+     * Active Client condition
+     *
+     * @param personId Long
+     * @return BooleanBuilder
+     */
+    private BooleanBuilder activePersonCondition(Long personId) {
+<span class="nc" id="L119">        BooleanBuilder where = new BooleanBuilder();</span>
+<span class="nc" id="L120">        where.and(QPersonEntity.personEntity.personId.eq(personId));</span>
+<span class="nc" id="L121">        where.and(QPersonEntity.personEntity.status.eq(Status.ACTIVE.value));</span>
+<span class="nc" id="L122">        return where;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

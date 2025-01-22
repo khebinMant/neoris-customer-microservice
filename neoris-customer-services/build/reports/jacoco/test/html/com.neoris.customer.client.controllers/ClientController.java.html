@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">neoris-customer-services</a> &gt; <a href="index.source.html" class="el_package">com.neoris.customer.client.controllers</a> &gt; <span class="el_source">ClientController.java</span></div><h1>ClientController.java</h1><pre class="source lang-java linenums">package com.neoris.customer.client.controllers;
+
+
+import com.neoris.customer.client.entities.ClientEntity;
+import com.neoris.customer.client.vo.UpdateClientVo;
+import com.neoris.customer.common.web.Response;
+import com.neoris.customer.client.services.IClientService;
+import com.neoris.customer.client.vo.CreateClientVo;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * Controller for Client
+ *
+ * @author Kevin
+ * @version 1.0
+ */
+@RestController
+@RequestMapping(&quot;clientes&quot;)
+@Lazy
+@Tag(name = &quot;Clientes&quot;, description = &quot;Clientes API&quot;)
+<span class="nc" id="L33">public class ClientController {</span>
+
+    @Lazy
+    @Autowired
+    private IClientService clientService;
+
+    /**
+     * Add a new Client
+     *
+     * @param createClient Client to create
+     * @return Status code
+     */
+    @PostMapping
+    @Operation(summary = &quot;Create new Client object&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Client Object has been created&quot;),
+            @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid input&quot;),
+            @ApiResponse(responseCode = &quot;409&quot;, description = &quot;Client Object already exists&quot;)
+    })
+    public ResponseEntity&lt;Response&lt;ClientEntity&gt;&gt; create(@RequestBody CreateClientVo createClient) {
+<span class="nc" id="L53">        return new ResponseEntity&lt;&gt;(Response.&lt;ClientEntity&gt;builder()</span>
+<span class="nc" id="L54">                .data(this.clientService.create(createClient))</span>
+<span class="nc" id="L55">                .message(&quot;Objeto fue creado&quot;).build(), HttpStatus.CREATED);</span>
+    }
+
+    /**
+     * Find client value by ID
+     *
+     * @param clientId String
+     * @return Catalogue value entity
+     */
+    @GetMapping(&quot;/{clientId}&quot;)
+    @Operation(summary = &quot;Find client by Id&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Find client by Id&quot;),
+            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Not found&quot;)
+    })
+    public ResponseEntity&lt;Response&lt;ClientEntity&gt;&gt; findClientById(@NotBlank @PathVariable Long clientId) {
+<span class="nc" id="L71">        return new ResponseEntity&lt;&gt;(Response.&lt;ClientEntity&gt;builder()</span>
+<span class="nc" id="L72">                .data(this.clientService.findById(clientId)).build(), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Update Client.
+     * Se comentA este mÃ©todo porque es mejor obtener el cliente dada su cedula ya
+     * que tambiÃ©n es Ãºnica pero lo mantengo para constancia del CRUD
+     *
+     * @param clientId Long ID
+     * @param updateClientVo UpdateClient
+     * @return Status code
+     */
+    @PatchMapping(&quot;/{clientId}&quot;)
+    @Operation(summary = &quot;Update Client&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully updated&quot;),
+            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Client not found&quot;),
+    })
+    public ResponseEntity&lt;Response&lt;Void&gt;&gt; update(@NotBlank @PathVariable Long clientId, @RequestBody UpdateClientVo updateClientVo) {
+<span class="nc" id="L91">        this.clientService.updateClient(updateClientVo, clientId);</span>
+<span class="nc" id="L92">        return new ResponseEntity&lt;&gt;(Response.&lt;Void&gt;builder().message(&quot;Actualizado con Ã©xito&quot;).build(), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Find person value by identityNumber
+     *
+     * @param identityNumber String
+     * @return PersonEntity
+     */
+    @GetMapping(&quot;identityNumber/{identityNumber}&quot;)
+    @Operation(summary = &quot;Find client by identityNumber&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Find client by identityNumber&quot;),
+            @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Not found&quot;)
+    })
+    public ResponseEntity&lt;Response&lt;ClientEntity&gt;&gt; findClientByIdentityNumber(@NotBlank @PathVariable Long identityNumber) {
+<span class="nc" id="L108">        return new ResponseEntity&lt;&gt;(Response.&lt;ClientEntity&gt;builder()</span>
+<span class="nc" id="L109">                .data(this.clientService.findByIdentificationPersonNumber(identityNumber)).build(), HttpStatus.OK);</span>
+    }
+
+    /**
+     * Find all Clients Objects.
+     *
+     * @return Status code
+     */
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = &quot;Get all Accounts&quot;)
+    @ApiResponses(value = { @ApiResponse(responseCode =  &quot;200&quot;, description = &quot;List of flow objects&quot;)})
+    public ResponseEntity&lt;Response&lt;List&lt;ClientEntity&gt;&gt;&gt; findAll(){
+<span class="nc" id="L121">        return new ResponseEntity&lt;&gt;(Response.&lt;List&lt;ClientEntity&gt;&gt;builder()</span>
+<span class="nc" id="L122">                .data(clientService.findAllClients())</span>
+<span class="nc" id="L123">                .message(&quot;SUCCESS&quot;)</span>
+<span class="nc" id="L124">                .build(),</span>
+                HttpStatus.OK);
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

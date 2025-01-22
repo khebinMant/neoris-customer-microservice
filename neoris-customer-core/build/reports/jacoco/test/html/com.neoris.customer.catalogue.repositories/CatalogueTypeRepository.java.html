@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CatalogueTypeRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">neoris-customer-core</a> &gt; <a href="index.source.html" class="el_package">com.neoris.customer.catalogue.repositories</a> &gt; <span class="el_source">CatalogueTypeRepository.java</span></div><h1>CatalogueTypeRepository.java</h1><pre class="source lang-java linenums">package com.neoris.customer.catalogue.repositories;
 
 import com.neoris.customer.catalogue.entities.CatalogueTypeEntity;
+import com.neoris.customer.catalogue.entities.QCatalogueTypeEntity;
 import com.neoris.customer.catalogue.vo.CatalogueType.CreateCatalogueType;
 import com.neoris.customer.catalogue.vo.CatalogueType.QueryCatalogueType;
 import com.neoris.customer.catalogue.vo.CatalogueType.UpdateCatalogueType;
-import com.neoris.customer.common.enums.Status;
 import com.neoris.customer.common.repositories.JPAQueryDslBaseRepository;
+import com.neoris.customer.common.enums.Status;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +14,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-import static com.neoris.customer.catalogue.entities.QCatalogueTypeEntity.catalogueTypeEntity;
 
 /**
  * {@inheritDoc}
@@ -24,23 +23,23 @@ import static com.neoris.customer.catalogue.entities.QCatalogueTypeEntity.catalo
 public class CatalogueTypeRepository extends JPAQueryDslBaseRepository&lt;CatalogueTypeEntity&gt; implements ICatalogueTypeRepository {
 
     public CatalogueTypeRepository() {
-<span class="fc" id="L27">        super(CatalogueTypeEntity.class);</span>
-<span class="fc" id="L28">    }</span>
+<span class="nc" id="L26">        super(CatalogueTypeEntity.class);</span>
+<span class="nc" id="L27">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public CatalogueTypeEntity create(CreateCatalogueType createCatalogueType) {
-<span class="fc" id="L35">        CatalogueTypeEntity entity = CatalogueTypeEntity.builder()</span>
-<span class="fc" id="L36">            .code(createCatalogueType.getCode())</span>
-<span class="fc" id="L37">            .name(createCatalogueType.getName())</span>
-<span class="fc" id="L38">            .description(createCatalogueType.getDescription())</span>
-<span class="fc" id="L39">            .build();</span>
+<span class="nc" id="L34">        CatalogueTypeEntity entity = CatalogueTypeEntity.builder()</span>
+<span class="nc" id="L35">            .code(createCatalogueType.getCode())</span>
+<span class="nc" id="L36">            .name(createCatalogueType.getName())</span>
+<span class="nc" id="L37">            .description(createCatalogueType.getDescription())</span>
+<span class="nc" id="L38">            .build();</span>
 
-<span class="fc" id="L41">        this.save(entity);</span>
+<span class="nc" id="L40">        this.save(entity);</span>
 
-<span class="fc" id="L43">        return entity;</span>
+<span class="nc" id="L42">        return entity;</span>
     }
 
     /**
@@ -48,9 +47,9 @@ public class CatalogueTypeRepository extends JPAQueryDslBaseRepository&lt;Catalo
      */
     @Override
     public CatalogueTypeEntity findById(Long catalogueTypeId) {
-<span class="nc" id="L51">        return from(catalogueTypeEntity)</span>
-<span class="nc" id="L52">            .where(this.activeCatalogueCondition(catalogueTypeId))</span>
-<span class="nc" id="L53">            .fetchFirst();</span>
+<span class="nc" id="L50">        return from(QCatalogueTypeEntity.catalogueTypeEntity)</span>
+<span class="nc" id="L51">            .where(this.activeCatalogueCondition(catalogueTypeId))</span>
+<span class="nc" id="L52">            .fetchFirst();</span>
     }
 
     /**
@@ -58,32 +57,32 @@ public class CatalogueTypeRepository extends JPAQueryDslBaseRepository&lt;Catalo
      */
     @Override
     public void updateEntity(Long catalogueTypeId, UpdateCatalogueType updateCatalogueType) {
-<span class="nc" id="L61">        this.update(catalogueTypeEntity)</span>
-<span class="nc" id="L62">            .where(this.activeCatalogueCondition(catalogueTypeId))</span>
-<span class="nc" id="L63">            .set(catalogueTypeEntity.name, updateCatalogueType.getName())</span>
-<span class="nc" id="L64">            .set(catalogueTypeEntity.description, updateCatalogueType.getDescription())</span>
-<span class="nc" id="L65">            .execute();</span>
-<span class="nc" id="L66">    }</span>
+<span class="nc" id="L60">        this.update(QCatalogueTypeEntity.catalogueTypeEntity)</span>
+<span class="nc" id="L61">            .where(this.activeCatalogueCondition(catalogueTypeId))</span>
+<span class="nc" id="L62">            .set(QCatalogueTypeEntity.catalogueTypeEntity.name, updateCatalogueType.getName())</span>
+<span class="nc" id="L63">            .set(QCatalogueTypeEntity.catalogueTypeEntity.description, updateCatalogueType.getDescription())</span>
+<span class="nc" id="L64">            .execute();</span>
+<span class="nc" id="L65">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public void inactive(Long catalogueTypeId) {
-<span class="nc" id="L73">        this.update(catalogueTypeEntity)</span>
-<span class="nc" id="L74">            .where(this.activeCatalogueCondition(catalogueTypeId))</span>
-<span class="nc" id="L75">            .set(catalogueTypeEntity.status, Status.INACTIVE.value)</span>
-<span class="nc" id="L76">            .execute();</span>
-<span class="nc" id="L77">    }</span>
+<span class="nc" id="L72">        this.update(QCatalogueTypeEntity.catalogueTypeEntity)</span>
+<span class="nc" id="L73">            .where(this.activeCatalogueCondition(catalogueTypeId))</span>
+<span class="nc" id="L74">            .set(QCatalogueTypeEntity.catalogueTypeEntity.status, Status.INACTIVE.value)</span>
+<span class="nc" id="L75">            .execute();</span>
+<span class="nc" id="L76">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public List&lt;CatalogueTypeEntity&gt; findAll(QueryCatalogueType query) {
-<span class="nc" id="L84">        return from(catalogueTypeEntity)</span>
-<span class="nc" id="L85">            .where(this.buildQuery(query))</span>
-<span class="nc" id="L86">            .fetch();</span>
+<span class="nc" id="L83">        return from(QCatalogueTypeEntity.catalogueTypeEntity)</span>
+<span class="nc" id="L84">            .where(this.buildQuery(query))</span>
+<span class="nc" id="L85">            .fetch();</span>
     }
 
     /**
@@ -93,10 +92,10 @@ public class CatalogueTypeRepository extends JPAQueryDslBaseRepository&lt;Catalo
      * @return BooleanBuilder
      */
     private BooleanBuilder activeCatalogueCondition(Long catalogueTypeId) {
-<span class="nc" id="L96">        BooleanBuilder where = new BooleanBuilder();</span>
-<span class="nc" id="L97">        where.and(catalogueTypeEntity.catalogueTypeId.eq(catalogueTypeId));</span>
-<span class="nc" id="L98">        where.and(statusPredicate(Status.ACTIVE));</span>
-<span class="nc" id="L99">        return where;</span>
+<span class="nc" id="L95">        BooleanBuilder where = new BooleanBuilder();</span>
+<span class="nc" id="L96">        where.and(QCatalogueTypeEntity.catalogueTypeEntity.catalogueTypeId.eq(catalogueTypeId));</span>
+<span class="nc" id="L97">        where.and(statusPredicate(Status.ACTIVE));</span>
+<span class="nc" id="L98">        return where;</span>
     }
 
     /**
@@ -106,7 +105,7 @@ public class CatalogueTypeRepository extends JPAQueryDslBaseRepository&lt;Catalo
      * @return Predicate
      */
     private Predicate statusPredicate(Status status) {
-<span class="nc" id="L109">        return catalogueTypeEntity.status.eq(status.value);</span>
+<span class="nc" id="L108">        return QCatalogueTypeEntity.catalogueTypeEntity.status.eq(status.value);</span>
     }
 
     /**
@@ -116,22 +115,22 @@ public class CatalogueTypeRepository extends JPAQueryDslBaseRepository&lt;Catalo
      * @return BooleanBuilder
      */
     private BooleanBuilder buildQuery(QueryCatalogueType queryCatalogueType) {
-<span class="nc" id="L119">        BooleanBuilder where = new BooleanBuilder();</span>
+<span class="nc" id="L118">        BooleanBuilder where = new BooleanBuilder();</span>
 
         // Add status active condition
-<span class="nc" id="L122">        where.and(statusPredicate(Status.ACTIVE));</span>
+<span class="nc" id="L121">        where.and(statusPredicate(Status.ACTIVE));</span>
 
         // Add code condition
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (StringUtils.isNotBlank(queryCatalogueType.getCode())) {</span>
-<span class="nc" id="L126">            where = where.and(catalogueTypeEntity.code.eq(queryCatalogueType.getCode()));</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (StringUtils.isNotBlank(queryCatalogueType.getCode())) {</span>
+<span class="nc" id="L125">            where = where.and(QCatalogueTypeEntity.catalogueTypeEntity.code.eq(queryCatalogueType.getCode()));</span>
         }
 
         // Add name condition
-<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (StringUtils.isNotBlank(queryCatalogueType.getName())) {</span>
-<span class="nc" id="L131">            where = where.and(catalogueTypeEntity.name.containsIgnoreCase(queryCatalogueType.getName().trim()));</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (StringUtils.isNotBlank(queryCatalogueType.getName())) {</span>
+<span class="nc" id="L130">            where = where.and(QCatalogueTypeEntity.catalogueTypeEntity.name.containsIgnoreCase(queryCatalogueType.getName().trim()));</span>
         }
 
-<span class="nc" id="L134">        return where;</span>
+<span class="nc" id="L133">        return where;</span>
     }
 
 }

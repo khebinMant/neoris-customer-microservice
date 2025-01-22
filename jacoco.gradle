@@ -1,11 +1,11 @@
 apply plugin: 'jacoco'
 
 test {
-    finalizedBy jacocoTestReport // genera el reporte después de ejecutar las pruebas
+    finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-    dependsOn test // necesitas ejecutar las pruebas antes de generar el reporte
+    dependsOn test
     reports {
         xml.required = true
         html.required = true

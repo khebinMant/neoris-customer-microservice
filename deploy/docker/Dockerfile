@@ -1,6 +1,6 @@
 FROM gcr.io/distroless/java17-debian11
 
-MAINTAINER Edson Rosas "mantillagka@gmail.com"
+MAINTAINER Kevin Mantilla "mantillagka@gmail.com"
 
 ENV TZ ${TZ}
 

@@ -1,30 +1,15 @@
-#logging:
-#  level:
-#    root: DEBUG
----
 spring:
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:test-schema.sql
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:test_cache_app;DB_CLOSE_ON_EXIT=FALSE;MODE=Oracle
-    username: root
-    password: root
-    hikari:
-      connectionTimeout: 60000
-      idleTimeout: 600000
-      maxLifetime: 1800000
-      maximumPoolSize: 20
-      connectionTestQuery: SELECT 1
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL;INIT=RUNSCRIPT FROM 'classpath:BaseDatosTest.sql'
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create-drop # Crea las tablas al inicio y las elimina al finalizar
     properties:
       hibernate:
-        format_sql: true
-    show-sql: false
-
-
+        default_schema: CUSTOMER
+  sql:
+    init:
+      mode: always # Siempre inicializa la base de datos

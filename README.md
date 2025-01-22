@@ -48,13 +48,13 @@ con la información necesarias para hacer las pruebas dadas en el `Caso de Uso` 
 Run with gradle
 
 ```bash
-./gradlew neoris-customer-microservices:bootRun
+./gradlew neoris-customer-microservice:bootRun
 ```
 
 Run with jar
 
 ```bash
-java -jar ./neoris-customer-microservices/build/libs/neoris-customer-microservices-1.0.0-SNAPSHOT.jar
+java -jar ./neoris-customer-microservice/build/libs/neoris-customer-microservice-1.0.0-SNAPSHOT.jar
 ```
 
 ## Build docker image
@@ -68,11 +68,11 @@ java -jar ./neoris-customer-microservices/build/libs/neoris-customer-microservic
 2) Build docker image
 
 ```shell
-docker build --no-cache -t neoris-customer-microservices:1.0.0-SNAPSHOT -f deploy/docker/Dockerfile .
+docker build --no-cache -t neoris-customer-microservice:1.0.0-SNAPSHOT -f deploy/docker/Dockerfile .
 ```
 
 **OPTIONAL** - Test Docker image
 
 ```shell
-docker run -it --rm --env-file ./deploy/docker/.env --name neoris-customer-microservices -p 8080:8080 neoris-customer-microservices:1.0.0-SNAPSHOT
+docker run -it --rm --env-file ./deploy/docker/.env --name neoris-customer-microservice -p 8080:8080 neoris-customer-microservice:1.0.0-SNAPSHOT
 ```

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">neoris-customer-core</a> &gt; <a href="index.source.html" class="el_package">com.neoris.customer.client.repositories</a> &gt; <span class="el_source">ClientRepository.java</span></div><h1>ClientRepository.java</h1><pre class="source lang-java linenums">package com.neoris.customer.client.repositories;
+
+import com.neoris.customer.client.entities.ClientEntity;
+import com.neoris.customer.client.entities.QClientEntity;
+import com.neoris.customer.client.vo.UpdateClientVo;
+import com.neoris.customer.client.vo.CreateClientVo;
+import com.neoris.customer.common.enums.Status;
+import com.neoris.customer.common.repositories.JPAQueryDslBaseRepository;
+import com.neoris.customer.person.entities.PersonEntity;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAUpdateClause;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+     * {@inheritDoc}
+     */
+    @Repository
+public class ClientRepository extends JPAQueryDslBaseRepository&lt;ClientEntity&gt; implements IClientRepository{
+
+    public ClientRepository(){
+<span class="nc" id="L26">        super(ClientEntity.class);</span>
+<span class="nc" id="L27">    }</span>
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public ClientEntity create(CreateClientVo createClientVo, PersonEntity personEntity) {
+<span class="nc" id="L34">        ClientEntity entity = ClientEntity.builder()</span>
+<span class="nc" id="L35">            .password(createClientVo.getPassword())</span>
+<span class="nc" id="L36">            .person(personEntity)</span>
+<span class="nc" id="L37">            .status(Status.ACTIVE.value)</span>
+<span class="nc" id="L38">            .createdByUser(createClientVo.getCreatedByUser())</span>
+<span class="nc" id="L39">            .lastModifiedDate(createClientVo.getLastModifiedDate())</span>
+<span class="nc" id="L40">            .createdFromIp(createClientVo.getCreatedFromIp())</span>
+<span class="nc" id="L41">            .updatedFromIp(createClientVo.getUpdatedFromIp())</span>
+<span class="nc" id="L42">            .build();</span>
+<span class="nc" id="L43">        this.save(entity);</span>
+<span class="nc" id="L44">        return entity;</span>
+    }
+
+    @Override
+    public ClientEntity findById(Long clientId) {
+<span class="nc" id="L49">        return from(QClientEntity.clientEntity)</span>
+<span class="nc" id="L50">                .where(this.activeClientCondition(clientId))</span>
+<span class="nc" id="L51">                .fetchFirst();</span>
+    }
+
+    @Override
+    public ClientEntity findByIdentificationPersonNumber(Long identityNumber) {
+<span class="nc" id="L56">        return from(QClientEntity.clientEntity)</span>
+<span class="nc" id="L57">                .where(QClientEntity.clientEntity.status.eq(Status.ACTIVE.value))</span>
+<span class="nc" id="L58">                .where(QClientEntity.clientEntity.person.status.eq(Status.ACTIVE.value))</span>
+<span class="nc" id="L59">                .where(QClientEntity.clientEntity.person.identityNumber.eq(identityNumber))</span>
+<span class="nc" id="L60">                .fetchFirst();</span>
+    }
+
+    @Override
+    public void updateClient(UpdateClientVo updateClientVo, Long clientId) {
+<span class="nc" id="L65">        JPAUpdateClause updateClause = new JPAUpdateClause(entityManager, QClientEntity.clientEntity);</span>
+<span class="nc" id="L66">        updateClause.where(this.activeClientCondition(clientId));</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (updateClientVo.getPassword() != null) {</span>
+<span class="nc" id="L69">            updateClause.set(QClientEntity.clientEntity.password, updateClientVo.getPassword());</span>
+        }
+
+        /*
+        * Used to logical delete
+        * */
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if (updateClientVo.getStatus() != null) {</span>
+<span class="nc" id="L76">            updateClause.set(QClientEntity.clientEntity.status, updateClientVo.getStatus());</span>
+        }
+
+<span class="nc" id="L79">        updateClause.execute();</span>
+<span class="nc" id="L80">    }</span>
+
+        @Override
+        public List&lt;ClientEntity&gt; findAllClients() {
+<span class="nc" id="L84">            return from(QClientEntity.clientEntity)</span>
+<span class="nc" id="L85">                    .where(QClientEntity.clientEntity.status.eq(Status.ACTIVE.value))</span>
+<span class="nc" id="L86">                    .fetch();</span>
+        }
+
+        /**
+     * Generate predicate status
+     *
+     * @param status Status
+     * @return Predicate
+     */
+    private Predicate statusPredicate(Status status) {
+<span class="nc" id="L96">        return QClientEntity.clientEntity.status.eq(status.value);</span>
+    }
+
+    /**
+     * Active Client condition
+     *
+     * @param clientId Long
+     * @return BooleanBuilder
+     */
+    private BooleanBuilder activeClientCondition(Long clientId) {
+<span class="nc" id="L106">        BooleanBuilder where = new BooleanBuilder();</span>
+<span class="nc" id="L107">        where.and(QClientEntity.clientEntity.clientId.eq(clientId));</span>
+<span class="nc" id="L108">        where.and(statusPredicate(Status.ACTIVE));</span>
+<span class="nc" id="L109">        return where;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
